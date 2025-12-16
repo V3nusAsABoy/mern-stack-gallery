@@ -1,0 +1,264 @@
+@import url('https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Shadows+Into+Light+Two&display=swap');
+
+#logos{
+    margin:auto;
+    max-width: fit-content;
+    margin-bottom:2em; /* suspect */
+    display:grid;
+    grid-template-columns: repeat(8,1fr);
+}
+
+h1, h2, h3, h4, h5, h6, button{
+    font-family:'Shadows Into Light';
+    color:black;
+}
+
+p{
+    font-size: 1.3em; /* suspect */
+}
+
+h2{
+    font-size: 2em; /* suspect */
+}
+
+h1, p, a{
+    font-family:'Shadows Into Light Two';
+}
+
+#home h1{
+    font-size:300%;
+}
+
+div > h1:first-of-type{
+    font-family:'Shadows Into Light';
+}
+
+body{
+    background-image: url("./img/drawingbackground.png");
+    background-attachment: fixed;
+    background-color: #f500c4;
+    background-attachment: fixed;
+    background-size:cover;
+}
+
+#root{
+    margin:0;
+    padding:0;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar{
+    margin-left:auto;
+    margin-right:auto;
+    max-width: fit-content;
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.navbar div{
+    display:inline;
+    padding: 2vw 2.5vw 2vw .5vw; /* !!! */
+    margin:auto auto auto auto;
+}
+
+.navbar button{
+    background-color:#FF0000;
+    background-image:linear-gradient(to bottom left, #FF0000, #9E00F5);
+    font-size:1.5em;
+    height: 2em;
+    width: 4em;
+    color:white;
+    text-align: center;
+    border:none;
+}
+
+#home video {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    object-fit: cover;
+}
+
+
+.body{
+    padding:3em;
+    background-color:#ededed;
+    max-width: 50em;
+    box-shadow: -0.5em -0.5em 1em rgba(146, 146, 146, 0.75),  0.5em 0.5em 1em rgb(146, 146, 146, 0.75);
+    margin-right: auto;
+    margin-left: auto;
+    top:0%;
+}
+
+#about h1{
+    color:#FF0000;
+    background-image: linear-gradient(to bottom, #FF0000, #FFC24D);
+    -webkit-background-clip: text;
+            background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size:5em;
+    overflow:hidden;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns: repeat(3,1fr);
+}
+
+#gallery h1:first-child{
+    color: #014f00;
+    background-image: linear-gradient(to right, #046d00, #026a008b);
+    -webkit-background-clip: text;
+            background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size:5em;
+    overflow:hidden;
+}
+
+#gallery h1{
+    font-size:3em;
+}
+
+#gallery p{
+    font-size: 2em;
+}
+
+#gallery img{
+    display:block;
+    margin-right:auto;
+    margin-left:auto;
+    width:40em;
+}
+
+#artists h1{
+    color: #0019FC;
+    background-image: linear-gradient(to left, #77ff00, #0019FC);
+    -webkit-background-clip: text;
+            background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size:5em;
+    overflow:hidden;
+}
+
+#gallery-sidebar{
+    left:0px;
+    width: 20em;
+    position:fixed;
+    background-color: #EDEDED;
+    top:0%;
+    height:100%;
+}
+
+#gallery-sidebar a{
+    font-size: 1.5em;
+    padding-left:1em;
+    color:black;
+}
+
+#gallery-sidebar div{
+    padding-bottom:1em;
+    padding-top:1em;
+}
+
+#gallery-sidebar div:hover > a{
+    color:#f500c4;
+}
+
+#artists h2{
+    text-align: center;
+}
+
+@media screen and (max-width: 1600px){
+    #gallery-sidebar{
+        height:5em;
+        width:100%;
+        bottom:0px;
+        top:auto;
+        text-align: center;
+    }
+
+    #gallery-sidebar div{
+        padding-bottom:0em;
+        padding-top:0em;
+        display: inline-block;
+        padding-right:2em;
+        padding-left:2em;
+    }
+
+    #gallery-sidebar div:first-child{
+        display:none;
+    }
+}
+
+@media screen and (max-width:900px){
+    
+    html, body{
+        margin:0;
+    }
+
+    .body{
+        box-shadow:none;
+        background-color: #edededaf;
+        padding-bottom: 12.5em;
+    }
+}
+
+@media screen and (max-width: 750px){
+
+    #gallery img{
+        width:20em;
+    }
+}
+
+@media screen and (max-width: 605px){
+
+    #gallery-sidebar{
+        height:10em;
+    }
+
+    #gallery{
+        padding-bottom:10em;
+    }
+
+}
+
+@media screen and (max-width: 460px){
+    #gallery-sidebar{
+        height:12em;
+    }
+
+    #gallery img{
+        width:90%;
+    }
+
+    h1{
+        text-align: center;
+    }
+
+}
+
+@media screen and (max-width: 450px){
+    #logos{
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom:0;
+        font-size: 0.75em;
+    }
+}
+
+@media screen and (max-width:400px){
+    #home h1{
+        font-size:220%;
+    }
+}
+
+@media screen and (max-width: 370px){
+    #gallery-sidebar{
+        height:12em;
+    }
+}
