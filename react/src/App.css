@@ -87,7 +87,7 @@ body{
 .body{
     padding:3em;
     background-color:#ededed;
-    max-width: 50em;
+    max-width:50em;
     box-shadow: -0.5em -0.5em 1em rgba(146, 146, 146, 0.75),  0.5em 0.5em 1em rgb(146, 146, 146, 0.75);
     margin-right: auto;
     margin-left: auto;
@@ -102,6 +102,24 @@ body{
     -webkit-text-fill-color: transparent;
     font-size:5em;
     overflow:hidden;
+}
+
+.register-form{
+    background-color: rgb(219, 219, 219);
+    display:flex;
+    flex-direction: column;
+    width:50em;
+    margin:auto;
+    align-items: center;
+    height:30em;
+    justify-content: center;
+    border: 0.1em solid rgba(128, 128, 128, 0.5);
+}
+
+.register-form input, .register-form button, .register-form label{
+    width:20em;
+    font-family: 'Shadows Into Light Two';
+    font-size:1.5em;
 }
 
 .grid{
@@ -170,6 +188,10 @@ body{
 
 #artists h2{
     text-align: center;
+}
+
+.hidden{
+    display:none;
 }
 
 @media screen and (max-width: 1600px){
