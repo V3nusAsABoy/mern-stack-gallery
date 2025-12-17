@@ -65,9 +65,20 @@ app.post('/register', upload.none(), async (req, res) => {
     }
 });
 
+app.get('/profile', (req,res) => {
+    const {token} = req.cookies;
+    jwt.verify(token, process.env.SECRET, {}, (err,info) => {
+        if(err) throw err;
+        res.json(info);
+    });
+});
+
 app.post('/login', async (req,res) => {
     const {username,password} = req.body;
     const userDoc = await User.findOne({username});
+    if(!userDoc){
+        return res.status(404).json('user not found');
+    }
     const passOk = bcrypt.compareSync(password, userDoc.password);
     if(passOk){
         req.session.admin = userDoc.admin;
@@ -79,7 +90,7 @@ app.post('/login', async (req,res) => {
             });
         })
     } else {
-        res.status(400).json('wrong credentials');
+        res.status(401).json('wrong credentials');
     }
 
 });

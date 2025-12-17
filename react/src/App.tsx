@@ -7,6 +7,7 @@ import Artists from './components/artists';
 import Navbar from './components/navbar';
 import Drawings from './components/drawings';
 import type Art from './types/art';
+import { UserContext } from './UserContext';
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
   const [artists, setArtists] = useState(false);
   const [drawings, setDrawings] = useState(false);
   const [art, setArt] = useState<Art[] | null>(null);
+  const [userInfo, setUserInfo] = useState<{}>(UserContext);
 
   useEffect(() => {
     fetch('http://localhost:4000/drawings')
@@ -22,6 +24,16 @@ function App() {
       .then(data => setArt(data))
       .catch(error => console.error('Error fetching art data:', error));
   }, []);
+
+  useEffect(() => {
+        fetch('http://localhost:4000/profile', {
+            credentials: 'include',
+        }).then(response => {
+            response.json().then(userInfo => {
+                setUserInfo(userInfo);
+            });
+        });
+    }, []);
 
   return (
     <div className="body">
