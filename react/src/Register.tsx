@@ -17,6 +17,8 @@ export default function Register(){
         passwordMismatch: false
     });
 
+    const [redirect, setRedirect] = useState(false);
+
     async function handleChange(e:React.FormEvent<HTMLInputElement>){
         e.preventDefault();
         const [name, value] = [(e.target as HTMLInputElement).name, (e.target as HTMLInputElement).value];
@@ -53,12 +55,14 @@ export default function Register(){
             }));
         }
         if(Object.values(errors).every(error => error === false)){
-            const form = new FormData();
-            form.set("username", formData.username);
-            form.set("password", formData.password);
-            const response = await fetch("http://localhost:4000/register", {
-                method: "POST",
-                body: form
+            const data = new FormData();
+            data.set('username', formData.username);
+            data.set('password', formData.password);
+            const response = await fetch('http://localhost:4000/register', {
+                method: 'POST',
+                body: JSON.stringify({username: formData.username, password: formData.password}),
+                headers: {'Content-Type': 'application/json'},
+                credentials: 'include',
             });
             if(response.status === 409){
                 setErrors(prevErrors => ({
@@ -67,10 +71,13 @@ export default function Register(){
                 }));
             } else if (response.ok){
                 response.json().then(() => {
-                    return <Navigate to="/" />
+                    setRedirect(true);
                 });
             }
         }
+    }
+    if(redirect){
+        return <Navigate to="/" />
     }
     return(
         <div className = "body">

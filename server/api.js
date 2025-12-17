@@ -9,29 +9,37 @@ const uploadMiddleware = multer({dest: 'uploads/'});
 const fs = require('fs');
 const Drawing = require('./dbmodules/drawing');
 const session = require('express-session');
-const dbstore = require('connect-mongo');
+const dbsession = require('connect-mongodb-session')(session);
 const jwt = require('jsonwebtoken');
 const User = require('./dbmodules/User');
 const cookieParser = require('cookie-parser');
 
 const salt = bcrypt.genSaltSync(10);
 
+const upload = multer();
+
 mongoose.connect(process.env.MONGOURL);
 
 app.use(cors({credentials:true,origin:process.env.ORIGIN}));
 app.use(express.json());
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(__dirname + '/uploads'));
+
+const dbstore = new dbsession({
+    uri: process.env.MONGOURL,
+    collection: 'sessions'
+});
 
 app.use(session({
     secret:process.env.SECRET,
     resave: false,
     saveUninitialized: false,
-    store: dbstore.create({mongoUrl: process.env.MONGOURL}),
+    store: dbstore,
     cookie: { maxAge: 1000 * 60 * 60 * 24 }
 }));
 
-app.post('/register', async (req, res) => {
+app.post('/register', upload.none(), async (req, res) => {
     const {username,password} = req.body;
     userDoc = await User.findOne({username});
     if(userDoc){
@@ -44,12 +52,13 @@ app.post('/register', async (req, res) => {
         admin:false
     });
     req.session.admin = userDoc.admin;
-    jwt.sign({usernam,id:userDoc.id},process.env.SECRET,{},(err,token) => {
+    jwt.sign({username,id:userDoc.id},process.env.SECRET,{},(err,token) => {
         if(err) throw err;
         res.cookie('token', token, {httpOnly:true, secure: process.env.NODE_ENV, sameSite: 'Strict'}).json({
             id:userDoc._id,
             username
         });
+        res.json(userDoc);
     });
     } catch(e) {
         res.status(400).json(e);
