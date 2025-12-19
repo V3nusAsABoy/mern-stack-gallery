@@ -8,6 +8,7 @@ import Navbar from './components/navbar';
 import Drawings from './components/drawings';
 import type Art from './types/art';
 import { UserContext } from './UserContext';
+import Loginoptions from './components/loginoptions';
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
 
   return (
     <div className="body">
+      <Loginoptions username={userInfo.username} />
       <Logos />
       <Navbar setHome={setHome} setAbout = {setAbout} setArtists={setArtists} setDrawings={setDrawings}/>
       {home && <Home />}

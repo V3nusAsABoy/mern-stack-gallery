@@ -44,7 +44,7 @@ export default function Login(){
             const data = new FormData();
             data.set('username', formData.username);
             data.set('password', formData.password);
-            const response = await fetch('http://localhost:4000/register', {
+            const response = await fetch('http://localhost:4000/login', {
                 method: 'POST',
                 body: JSON.stringify({username: formData.username, password: formData.password}),
                 headers: {'Content-Type': 'application/json'},

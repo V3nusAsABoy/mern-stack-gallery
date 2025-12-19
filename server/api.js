@@ -95,6 +95,10 @@ app.post('/login', async (req,res) => {
 
 });
 
+app.post('/logout', (req,res) => {
+    res.cookie('token', '').json('ok');
+})
+
 app.post('/drawing', uploadMiddleware.single('file'), async (req,res) => {
     const {originalname,path} = req.file;
     const parts = originalname.split(".");
