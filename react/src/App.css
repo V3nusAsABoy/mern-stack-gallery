@@ -59,6 +59,15 @@ body{
     flex-wrap: wrap;
 }
 
+#login-options{
+    display:flex;
+    flex-direction: row;
+    justify-content: end;
+}
+#login-options button{
+    font-size:1.5em;
+    margin-left:1em;
+}
 .navbar div{
     display:inline;
     padding: 2vw 2.5vw 2vw .5vw; /* !!! */

@@ -99,6 +99,14 @@ app.post('/logout', (req,res) => {
     res.cookie('token', '').json('ok');
 })
 
+app.get('/admin' , (req,res) => {
+    if(req.session.admin == true){
+        res.status(200).json('ok');
+    } else {
+        res.status(401).json('unauthorized');
+    }
+});
+
 app.post('/drawing', uploadMiddleware.single('file'), async (req,res) => {
     const {originalname,path} = req.file;
     const parts = originalname.split(".");

@@ -16,8 +16,9 @@ function App() {
   const [about, setAbout] = useState(false);
   const [artists, setArtists] = useState(false);
   const [drawings, setDrawings] = useState(false);
-  const [art, setArt] = useState<Art[] | null>(null);
+  const [art, setArt] = useState<Art[]>([]);
   const [userInfo, setUserInfo] = useState<{}>(UserContext);
+  const [admin, setAdmin] = useState(false);
 
   useEffect(() => {
     fetch('http://localhost:4000/drawings')
@@ -32,9 +33,19 @@ function App() {
         }).then(response => {
             response.json().then(userInfo => {
                 setUserInfo(userInfo);
+                checkAdmin();
             });
         });
     }, []);
+  
+    async function checkAdmin(){
+        const response =  await fetch('http://localhost:4000/admin', {
+            credentials: 'include',
+        });
+        if(response.ok){
+            setAdmin(true);
+        }
+    }
 
   return (
     <div className="body">
@@ -44,7 +55,7 @@ function App() {
       {home && <Home />}
       {about && <About />}
       {artists && <Artists />}
-      {drawings && <Drawings drawings={art} />}
+      {drawings && <Drawings drawings={art} admin={admin} setDrawings={setArt} />}
     </div>
   )
 }

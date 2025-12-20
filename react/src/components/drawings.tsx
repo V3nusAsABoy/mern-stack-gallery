@@ -1,8 +1,8 @@
-import {useState} from 'react';
+import {useState, type SetStateAction} from 'react';
 import type Art from '../types/art';
 import Drawing from './drawing';
 
-export default function drawings({drawings} : {drawings: Art[] | null}){
+export default function drawings({drawings, admin, setDrawings} : {drawings: Art[], admin: boolean, setDrawings: Function}) {
     const [formData, setFormData] = useState({
         title: "",
         artist: "",
@@ -28,6 +28,7 @@ export default function drawings({drawings} : {drawings: Art[] | null}){
     if(response.ok){
         response.json().then(data => {
             console.log(data);
+            setDrawings((prevDrawings: Art[]) => [...prevDrawings, data]);
         });
     } else {
         response.json().then(error => {
@@ -38,11 +39,12 @@ export default function drawings({drawings} : {drawings: Art[] | null}){
     return(
         <div id = "gallery">
             <h1>gallery</h1>
-            <hr/>
             {drawings && drawings.map((artwork, index) => (
                 <Drawing key={index} title={artwork.title} artist={artwork.artist} drawing={artwork.art} />
             ))}
-            <form onSubmit={newDrawing}>
+            {admin &&
+            <form onSubmit={newDrawing} className="register-form">
+                <h2>Add New Drawing</h2>
                 <label htmlFor="title">Title:</label>
                 <input type="text" id="title" name="title" value={formData.title} onChange={handleChange}/>
                 <br/>
@@ -51,8 +53,9 @@ export default function drawings({drawings} : {drawings: Art[] | null}){
                 <br/>
                 <label htmlFor="drawing">Drawing:</label>
                 <input type="file" name = "drawing" onChange = {e => setFiles(e.target.files?.[0] || null)}/>
+                <br />
                 <button type="submit">Submit</button>
-            </form>
+            </form>}
         </div>
     );
 }
