@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const mongoose = require('mongoose');
+const { check } = require('express-validator');
 require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const multer = require('multer');
@@ -36,10 +37,14 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: dbstore,
-    cookie: { maxAge: 1000 * 60 * 60 * 24 }
+    cookie: { maxAge: 1000 * 60 * 60 * 24,
+        secure: true,
+        sameSite: 'Strict', 
+        httpOnly: true,
+        expires: 1000 * 60 * 60 * 24}
 }));
 
-app.post('/register', upload.none(), async (req, res) => {
+app.post('/register', upload.none(), check('username').trim().escape(), async (req, res) => {
     const {username,password} = req.body;
     userDoc = await User.findOne({username});
     if(userDoc){
@@ -73,7 +78,7 @@ app.get('/profile', (req,res) => {
     });
 });
 
-app.post('/login', async (req,res) => {
+app.post('/login', check('username').trim().escape(), async (req,res) => {
     const {username,password} = req.body;
     const userDoc = await User.findOne({username});
     if(!userDoc){
@@ -126,6 +131,12 @@ app.post('/drawing', uploadMiddleware.single('file'), async (req,res) => {
 
 app.get('/drawings', async(req,res) => {
     res.json(await Drawing.find());
+});
+
+app.delete('/drawing/:id', async (req,res) => {
+    const {id} = req.params;
+    await Drawing.findByIdAndDelete(id);
+    res.json('deleted');
 });
 
 app.listen(process.env.PORT);

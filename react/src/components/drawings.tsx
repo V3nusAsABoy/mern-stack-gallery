@@ -27,7 +27,6 @@ export default function drawings({drawings, admin, setDrawings} : {drawings: Art
     });
     if(response.ok){
         response.json().then(data => {
-            console.log(data);
             setDrawings((prevDrawings: Art[]) => [...prevDrawings, data]);
         });
     } else {
@@ -40,10 +39,10 @@ export default function drawings({drawings, admin, setDrawings} : {drawings: Art
         <div id = "gallery">
             <h1>gallery</h1>
             {drawings && drawings.map((artwork, index) => (
-                <Drawing key={index} title={artwork.title} artist={artwork.artist} drawing={artwork.art} />
+                <Drawing key={index} title={artwork.title} artist={artwork.artist} drawing={artwork.art} setDrawings={setDrawings} admin={admin} id={artwork._id} />
             ))}
             {admin &&
-            <form onSubmit={newDrawing} className="register-form">
+            <form onSubmit={newDrawing} className="register-form" style={{marginTop:"1em"}}>
                 <h2>Add New Drawing</h2>
                 <label htmlFor="title">Title:</label>
                 <input type="text" id="title" name="title" value={formData.title} onChange={handleChange}/>
