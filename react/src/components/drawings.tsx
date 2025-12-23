@@ -1,4 +1,4 @@
-import {useState, type SetStateAction} from 'react';
+import {useState} from 'react';
 import type Art from '../types/art';
 import Drawing from './drawing';
 

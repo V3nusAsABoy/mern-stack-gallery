@@ -38,7 +38,7 @@ app.use(session({
     saveUninitialized: false,
     store: dbstore,
     cookie: { maxAge: 1000 * 60 * 60 * 24,
-        secure: true,
+        secure: process.env.NODE_ENV === 'production',
         sameSite: 'Strict', 
         httpOnly: true,
         expires: 1000 * 60 * 60 * 24}
@@ -91,7 +91,7 @@ app.post('/login', check('username').trim().escape(), async (req,res) => {
             if (err) throw err;
             res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV, sameSite: 'Strict' }).json({
                 id:userDoc._id,
-                username,
+                username
             });
         })
     } else {
@@ -108,7 +108,7 @@ app.get('/admin' , (req,res) => {
     if(req.session.admin == true){
         res.status(200).json('ok');
     } else {
-        res.status(401).json('unauthorized');
+        res.status(401).json(`${req.session.admin}`);
     }
 });
 

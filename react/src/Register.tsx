@@ -80,25 +80,27 @@ export default function Register(){
         return <Navigate to="/" />
     }
     return(
-        <div className = "body">
-            <h1>Register</h1>
-            <form className="register-form" onSubmit={handleSubmit}>
-                <label htmlFor="username">Username:</label>
-                <input type="text" id="username" name="username" value={formData.username} onChange={handleChange} />
-                <span className={errors.username ? "" : "hidden"}>Enter username</span>
-                <span className={errors.takenUsername ? "" : "hidden"}>Username taken</span>
-                <br />
-                <label htmlFor="password">Password:</label>
-                <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} />
-                <span className={errors.password ? "" : "hidden"}>Enter password</span>
-                <br />
-                <label htmlFor="passwordConfirm">Confirm Password:</label>
-                <input type="password" id="passwordConfirm" name="passwordConfirm" value={formData.passwordConfirm} onChange={handleChange} />
-                 <span className={errors.confirmPassword ? "" : "hidden"}>Enter password again</span>
-                 <span className={errors.passwordMismatch ? "" : "hidden"}>Passwords do not match</span>
-                <br />
-                <button type="submit">Register</button>
-            </form>
+        <div className = "body login-reg">
+            <div>
+                <h1>Register</h1>
+                <form className="register-form" onSubmit={handleSubmit}>
+                    <label htmlFor="username">Username:</label>
+                    <input type="text" id="username" name="username" value={formData.username} onChange={handleChange} />
+                    <span className={errors.username ? "" : "hidden"}>Enter username</span>
+                    <span className={errors.takenUsername ? "" : "hidden"}>Username taken</span>
+                    <br />
+                    <label htmlFor="password">Password:</label>
+                    <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} />
+                    <span className={errors.password ? "" : "hidden"}>Enter password</span>
+                    <br />
+                    <label htmlFor="passwordConfirm">Confirm Password:</label>
+                    <input type="password" id="passwordConfirm" name="passwordConfirm" value={formData.passwordConfirm} onChange={handleChange} />
+                    <span className={errors.confirmPassword ? "" : "hidden"}>Enter password again</span>
+                    <span className={errors.passwordMismatch ? "" : "hidden"}>Passwords do not match</span>
+                    <br />
+                    <button type="submit">Register</button>
+                </form>
+            </div>
         </div>
     )
 }

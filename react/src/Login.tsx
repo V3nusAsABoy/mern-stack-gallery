@@ -28,6 +28,12 @@ export default function Login(){
 
     async function handleSubmit(e:React.FormEvent<HTMLFormElement>){
         e.preventDefault();
+        setErrors({
+            username: false,
+            password: false,
+            invaliduser: false,
+            invalidpassword: false
+        });
         if(!formData.username){
             setErrors(prevErrors => ({
                 ...prevErrors,
@@ -71,21 +77,23 @@ export default function Login(){
         return <Navigate to="/" />
     }
     return(
-        <div className = "body">
-            <h1>Log in</h1>
-            <form className="register-form" onSubmit={handleSubmit}>
-                <label htmlFor="username">Username:</label>
-                <input type="text" id="username" name="username" value={formData.username} onChange={handleChange} />
-                <span className={errors.username ? "" : "hidden"}>Enter username</span>
-                <span className={errors.invaliduser ? "" : "hidden"}>Invalid username</span>
-                <br />
-                <label htmlFor="password">Password:</label>
-                <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} />
-                <span className={errors.password ? "" : "hidden"}>Enter password</span>
-                <span className={errors.invalidpassword ? "" : "hidden"}>Invalid password</span>
-                <br />
-                <button type="submit">Log in</button>
-            </form>
+        <div className = "body login-reg">
+            <div>
+                <h1>Log in</h1>
+                <form className="register-form" onSubmit={handleSubmit}>
+                    <label htmlFor="username">Username:</label>
+                    <input type="text" id="username" name="username" value={formData.username} onChange={handleChange} />
+                    <span className={errors.username ? "" : "hidden"}>Enter username</span>
+                    <span className={errors.invaliduser ? "" : "hidden"}>Invalid username</span>
+                    <br />
+                    <label htmlFor="password">Password:</label>
+                    <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} />
+                    <span className={errors.password ? "" : "hidden"}>Enter password</span>
+                    <span className={errors.invalidpassword ? "" : "hidden"}>Invalid password</span>
+                    <br />
+                    <button type="submit">Log in</button>
+                </form>
+            </div>
         </div>
     )
 }
