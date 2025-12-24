@@ -105,6 +105,27 @@ app.post('/login', check('username').trim().escape(), async (req,res) => {
 
 });
 
+app.get('/cookie-check', (req, res) => {
+    console.log('=== COOKIE CHECK ===');
+    console.log('All cookies received:', req.cookies);
+    console.log('Token exists?', !!req.cookies.token);
+    console.log('Token value length:', req.cookies.token ? req.cookies.token.length : 0);
+    console.log('Environment:', process.env.NODE_ENV);
+    
+    res.json({
+        cookies: Object.keys(req.cookies),
+        hasToken: !!req.cookies.token,
+        tokenPreview: req.cookies.token ? req.cookies.token.substring(0, 20) + '...' : null,
+        tokenLength: req.cookies.token ? req.cookies.token.length : 0,
+        sessionId: req.sessionID,
+        sessionExists: !!req.sessionID,
+        headers: {
+            origin: req.headers.origin,
+            'user-agent': req.headers['user-agent']
+        }
+    });
+});
+
 app.post('/logout', (req,res) => {
 
     const clearCookieSettings = () => ({
