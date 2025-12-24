@@ -126,41 +126,59 @@ app.get('/cookie-check', (req, res) => {
     });
 });
 
-app.post('/logout', (req,res) => {
-
-    const clearCookieSettings = () => ({
-         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+app.post('/logout', (req, res) => {
+    console.log('🚨 LOGOUT CALLED - Current cookies:', Object.keys(req.cookies));
+    
+    // CRITICAL: These settings MUST match EXACTLY how cookies were set
+    // From your code, cookies are set with:
+    // - secure: process.env.NODE_ENV === 'production' 
+    // - sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax'
+    // - httpOnly: true
+    // - path: '/' (default)
+    
+    const isProduction = process.env.NODE_ENV === 'production';
+    
+    // Define EXACT settings that match login/register
+    const exactCookieSettings = {
+        httpOnly: true,
+        secure: isProduction,
+        sameSite: isProduction ? 'None' : 'Lax',
         path: '/',
-        expires: new Date(0),
-        maxAge: 0
-    });
-
-    res.cookie('token', '', clearCookieSettings);
-
-    // Clear JWT cookie with same settings it was set with
-    res.clearCookie('token', clearCookieSettings());
+        // These force expiration
+        expires: new Date(0), // Past date
+        maxAge: 0 // Zero age
+    };
     
-    // Clear session cookie
-    res.clearCookie('connect.sid', clearCookieSettings());
+    console.log('🔧 Using cookie settings:', exactCookieSettings);
     
-    // Destroy session
+    // Method 1: Set empty value with expired date (MOST RELIABLE)
+    res.cookie('token', '', exactCookieSettings);
+    
+    // Method 2: Also call clearCookie (belt and suspenders)
+    res.clearCookie('token', exactCookieSettings);
+    
+    // Do the same for session cookie
+    res.cookie('connect.sid', '', exactCookieSettings);
+    res.clearCookie('connect.sid', exactCookieSettings);
+    
+    // Destroy the session in store
     req.session.destroy((err) => {
-        let response = {
-            message: 'Logged out successfully',
-            cookiesCleared: true,
-            timestamp: new Date().toISOString()
-        };
-        
-        if(err) {
-            console.error('Session destroy error:', err);
-            response.sessionError = err.message;
+        if (err) {
+            console.error('❌ Session destroy error:', err);
+        } else {
+            console.log('✅ Session destroyed in store');
         }
         
-        res.json(response);
+        // Send response
+        res.json({
+            success: true,
+            message: 'Logged out - cookies should be cleared',
+            settingsUsed: exactCookieSettings,
+            environment: process.env.NODE_ENV,
+            timestamp: new Date().toISOString()
+        });
     });
-})
+});
 
 app.get('/admin' , (req,res) => {
     if(req.session.admin == true){
