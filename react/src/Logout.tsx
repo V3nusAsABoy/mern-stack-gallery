@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 
 export default function Logout(){
+    const url: string = 'https://artzone-97xg.onrender.com/';
     const [redirect, setRedirect] = useState(false);
     useEffect(() => {
-        fetch('http://localhost:4000/logout', {
+        fetch(`${url}logout`, {
             method: 'POST',
             credentials: 'include',
         }).then(() => {

@@ -3,7 +3,7 @@ import {useState} from 'react';
 import {Navigate} from 'react-router-dom';
 
 export default function Register(){
-    const url: string = 'http://localhost:4000/';
+    const url: string = 'https://artzone-97xg.onrender.com/';
 
     const [formData, setFormData] = useState({
         username: "",
