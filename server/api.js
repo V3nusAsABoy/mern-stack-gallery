@@ -106,7 +106,16 @@ app.post('/login', check('username').trim().escape(), async (req,res) => {
 });
 
 app.post('/logout', (req,res) => {
-    res.cookie('token', '').json('ok');
+    res.clearCookie('token', getCookieSettings());
+
+    req.session.destroy((err) => {
+        if(err) {
+            console.error('Logout error:', err);
+            return res.status(500).json('logout error');
+        }
+        
+        res.json('ok');
+    });
 })
 
 app.get('/admin' , (req,res) => {
