@@ -106,15 +106,34 @@ app.post('/login', check('username').trim().escape(), async (req,res) => {
 });
 
 app.post('/logout', (req,res) => {
-    res.clearCookie('token', getCookieSettings());
 
+    const clearCookieSettings = () => ({
+         httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+        path: '/'
+    });
+
+    // Clear JWT cookie with same settings it was set with
+    res.clearCookie('token', clearCookieSettings());
+    
+    // Clear session cookie
+    res.clearCookie('connect.sid', clearCookieSettings());
+    
+    // Destroy session
     req.session.destroy((err) => {
+        let response = {
+            message: 'Logged out successfully',
+            cookiesCleared: true,
+            timestamp: new Date().toISOString()
+        };
+        
         if(err) {
-            console.error('Logout error:', err);
-            return res.status(500).json('logout error');
+            console.error('Session destroy error:', err);
+            response.sessionError = err.message;
         }
         
-        res.json('ok');
+        res.json(response);
     });
 })
 
