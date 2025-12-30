@@ -20,7 +20,7 @@ function App() {
   const [art, setArt] = useState<Art[]>([]);
   const [userInfo, setUserInfo] = useState<user>({} as user);
   const [admin, setAdmin] = useState(false);
-  const url: string = 'https://localhost:4000/';
+  const url: string = 'http://localhost:4000/';
 
   useEffect(() => {
     fetch(`${url}drawings`)
