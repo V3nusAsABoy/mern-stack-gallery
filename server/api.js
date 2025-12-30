@@ -14,6 +14,7 @@ const dbsession = require('connect-mongodb-session')(session);
 const jwt = require('jsonwebtoken');
 const User = require('./dbmodules/User');
 const Artist = require('./dbmodules/artist');
+const Description = require('./dbmodules/description');
 const cookieParser = require('cookie-parser');
 
 const salt = bcrypt.genSaltSync(10);
