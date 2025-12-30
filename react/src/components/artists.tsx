@@ -1,22 +1,35 @@
-export default function artists(){
+import {useState} from 'react';
+
+export default function artists({admin} : {admin: Boolean}){
+    const [formData, setFormData] = useState({
+            artist: "",
+            description: "",
+        });
+
+     const handleChange = (e : React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const {name, value} = e.target;
+        setFormData(prevData => ({
+            ...prevData,
+            [name]: value
+        }));
+    }
+
     return(
         <div id="artists">
-                <h1>artists</h1>
-                <hr/>
-                <div>
-                    <h2>Andrew Abdulaziz</h2>
-                    <p>Andrew Abdulaziz is a talented artist who happens to attend Trent University. He is known for his ability to depict the human form in mesmerizing detail and fusing realism with creative expression. </p>
-                </div>
-                <hr/>
-                <div>
-                    <h2>Keshika Somaskanthar</h2>
-                    <p>Keshika Somaskanthar is an aspiring artist hailing from Ontario. Other than studying at Trent University, she appreciates creativity, especially drawing traditional art. Growing up, she enjoys watching cartoons such as Avatar: The Last Airbender and Battle For Dream Island. These pieces of media are the reason why she dedicates her time to drawing. </p>
-                </div>
-                <hr/>
-                <div>
-                    <h2>Einstein Nnah</h2>
-                    <p>Einstein Nnah, another artist attending Trent University has the knack for bringing animals to life through his traditional art. From drawing vibrant feathers of a parrot to drawing silky and beautiful butterfly wings, all animal lovers are captivated by his work. </p>
-                </div>
-            </div>
+            <h1>artists</h1>
+            <hr/>
+            {admin && 
+            <form className="register-form">
+                <h2>Add new artist</h2>
+                <label htmlFor="title">Artist:</label>
+                <input type="text" id="artist" name="artist" value={formData.artist} onChange={handleChange}/>
+                <br/>
+                <label htmlFor="artist">Description:</label>
+                <textarea style={{width: "80%", height: "20%"}} id="description" name="description" value={formData.description} onChange={handleChange}/>
+                <br />
+                <button type="submit">Submit</button>
+            </form>
+            }
+        </div>
     );
 }
