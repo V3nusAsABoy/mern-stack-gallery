@@ -18,6 +18,7 @@ function App() {
   const [about, setAbout] = useState(false);
   const [artists, setArtists] = useState(false);
   const [drawings, setDrawings] = useState(false);
+  const [description, setDescription] = useState('');
   const [art, setArt] = useState<Art[]>([]);
   const [artistsDescs, setArtistDescs] = useState<Artist[]>([]);
   const [userInfo, setUserInfo] = useState<user>({} as user);
@@ -29,24 +30,25 @@ function App() {
       .then(response => response.json())
       .then(data => setArt(data))
       .catch(error => console.error('Error fetching art data:', error));
-  }, []);
 
-  useEffect(() => {
     fetch(`${url}artists`)
       .then(response => response.json())
       .then(data => setArtistDescs(data))
       .catch(error => console.error('Error fetching artists data:', error));
-  }, []);
-
-  useEffect(() => {
-        fetch(`${url}profile`, {
-            credentials: 'include',
-        }).then(response => {
-            response.json().then(userInfo => {
-                setUserInfo(userInfo);
-                checkAdmin();
-            });
-        });
+        
+    fetch(`${url}profile`, {
+          credentials: 'include',
+      }).then(response => {
+          response.json().then(userInfo => {
+              setUserInfo(userInfo);
+              checkAdmin();
+          });
+      });
+    
+    fetch(`${url}description`)
+      .then(response => response.json())
+      .then(data => setDescription(data))
+      .catch(error => console.error('Error fetching artists data:', error));
     }, []);
   
     async function checkAdmin(){
@@ -66,7 +68,7 @@ function App() {
         <Logos />
         <Navbar setHome={setHome} setAbout = {setAbout} setArtists={setArtists} setDrawings={setDrawings}/>
         {home && <Home />}
-        {about && <About admin={admin}/>}
+        {about && <About admin={admin} about={description}/>}
         {artists && <Artists admin={admin} artists={artistsDescs} setArtists={setArtistDescs} url={url}/>}
         {drawings && <Drawings drawings={art} admin={admin} setDrawings={setArt} url={url} />}
       </div>
