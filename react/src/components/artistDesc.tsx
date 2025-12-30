@@ -1,4 +1,4 @@
-export default function artist({name, description} : {name: string, description: string}){
+export default function artistDesc({name, description} : {name: string, description: string}){
     return(
         <div>
             <h2>{name}</h2>

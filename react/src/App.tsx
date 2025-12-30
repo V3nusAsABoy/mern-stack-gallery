@@ -7,6 +7,7 @@ import Artists from './components/artists';
 import Navbar from './components/navbar';
 import Drawings from './components/drawings';
 import type Art from './types/art';
+import type Artist from './types/artist';
 import Loginoptions from './components/loginoptions';
 import type user from './types/user';
 import Sidebar from './components/sidebar';
@@ -18,6 +19,7 @@ function App() {
   const [artists, setArtists] = useState(false);
   const [drawings, setDrawings] = useState(false);
   const [art, setArt] = useState<Art[]>([]);
+  const [artistsDescs, setArtistDescs] = useState<Artist[]>([]);
   const [userInfo, setUserInfo] = useState<user>({} as user);
   const [admin, setAdmin] = useState(false);
   const url: string = 'http://localhost:4000/';
@@ -27,6 +29,13 @@ function App() {
       .then(response => response.json())
       .then(data => setArt(data))
       .catch(error => console.error('Error fetching art data:', error));
+  }, []);
+
+  useEffect(() => {
+    fetch(`${url}artists`)
+      .then(response => response.json())
+      .then(data => setArtistDescs(data))
+      .catch(error => console.error('Error fetching artists data:', error));
   }, []);
 
   useEffect(() => {
@@ -58,7 +67,7 @@ function App() {
         <Navbar setHome={setHome} setAbout = {setAbout} setArtists={setArtists} setDrawings={setDrawings}/>
         {home && <Home />}
         {about && <About />}
-        {artists && <Artists admin={admin}/>}
+        {artists && <Artists admin={admin} artists={artistsDescs}/>}
         {drawings && <Drawings drawings={art} admin={admin} setDrawings={setArt} url={url} />}
       </div>
     </>

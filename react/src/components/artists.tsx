@@ -1,6 +1,8 @@
 import {useState} from 'react';
+import type Artist from '../types/artist';
+import ArtistDesc from './artistDesc';
 
-export default function artists({admin} : {admin: Boolean}){
+export default function artists({admin, artists} : {admin: Boolean, artists: Artist[]}){
     const [formData, setFormData] = useState({
             artist: "",
             description: "",
@@ -18,6 +20,12 @@ export default function artists({admin} : {admin: Boolean}){
         <div id="artists">
             <h1>artists</h1>
             <hr/>
+            {artists && artists.map((artist, index) => (
+                <ArtistDesc key={index} name={artist.name} description={artist.description}/>
+            ))}
+            {artists.length === 0 &&
+                <h2>No artists yet!</h2>
+            }
             {admin && 
             <form className="register-form">
                 <h2>Add new artist</h2>
