@@ -1,8 +1,32 @@
 import draw from '../img/draw.png';
 import {useState} from 'react';
 
-export default function about({about, admin} : {about: string, admin: Boolean}){
+export default function about({about, admin, url, setDescription} : {about: string, admin: Boolean, url: string, setDescription: Function}){
     const [changeAbout, setChangeAbout] = useState(false);
+    const [newAbout, setNewAbout] = useState("");
+
+    const handleChange = (e : React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setNewAbout(e.target.value);
+    }
+
+    async function newDesc(){
+        const response = await fetch(`${url}description`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({description: newAbout})
+        });
+        if(response.ok){
+            response.json().then(data => {
+                setDescription(data.description);
+            });
+        } else {
+            response.json().then(error => {
+                console.error('Error:', error);
+            });
+        }
+    }
 
     return(<div id="about">
                 <h1>about</h1>
@@ -17,10 +41,10 @@ export default function about({about, admin} : {about: string, admin: Boolean}){
                 }
                 {!about && changeAbout &&
                 <>
-                    <textarea></textarea>
+                    <textarea onChange={handleChange}></textarea>
                     <br/>
                     <button onClick={() => setChangeAbout(false)}>cancel</button>
-                    <button>submit</button>
+                    <button onClick={newDesc}>submit</button>
                 </>
                 }
                 {!about && admin && !changeAbout &&

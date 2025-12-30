@@ -47,7 +47,7 @@ function App() {
     
     fetch(`${url}description`)
       .then(response => response.json())
-      .then(data => setDescription(data))
+      .then(data => setDescription(data[0].description))
       .catch(error => console.error('Error fetching artists data:', error));
     }, []);
   
@@ -68,7 +68,7 @@ function App() {
         <Logos />
         <Navbar setHome={setHome} setAbout = {setAbout} setArtists={setArtists} setDrawings={setDrawings}/>
         {home && <Home />}
-        {about && <About admin={admin} about={description}/>}
+        {about && <About admin={admin} about={description} setDescription={setDescription} url={url}/>}
         {artists && <Artists admin={admin} artists={artistsDescs} setArtists={setArtistDescs} url={url}/>}
         {drawings && <Drawings drawings={art} admin={admin} setDrawings={setArt} url={url} />}
       </div>

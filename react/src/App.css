@@ -209,7 +209,9 @@ h1{
 
 #about textarea{
     width:99%;
-    height:10em;
+    height:7.5em;
+    font-family: 'Shadows Into Light';
+    font-size: 1.5em;
 }
 
 #gallery-sidebar{

@@ -122,7 +122,7 @@ app.get('/artists', async (req, res) => {
 });
 
 app.post('/description', check('description').trim().escape(), async (req, res) => {
-   const description = req.body;
+   const {description} = req.body;
    const descriptionDoc = await Description.create({
         description: description
    });
@@ -132,7 +132,7 @@ app.post('/description', check('description').trim().escape(), async (req, res) 
 
 app.get('/description', async (req, res) => {
     res.json(await Description.find());
-})
+});
 
 
 app.post('/logout', (req, res) => {

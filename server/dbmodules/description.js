@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const {Schema, model} = mongoose;
 
 const DescriptionSchema = new mongoose.Schema({
-        description:String
+        description:Object
 });
 
 const DescriptionModel = model('Description', DescriptionSchema);
