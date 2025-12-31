@@ -136,41 +136,23 @@ app.get('/description', async (req, res) => {
 
 
 app.post('/logout', (req, res) => {
-    console.log('🚨 LOGOUT CALLED - Current cookies:', Object.keys(req.cookies));
-    
-    // CRITICAL: These settings MUST match EXACTLY how cookies were set
-    // From your code, cookies are set with:
-    // - secure: process.env.NODE_ENV === 'production' 
-    // - sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax'
-    // - httpOnly: true
-    // - path: '/' (default)
-    
     const isProduction = process.env.NODE_ENV === 'production';
     
-    // Define EXACT settings that match login/register
     const exactCookieSettings = {
         httpOnly: true,
         secure: isProduction,
         sameSite: isProduction ? 'None' : 'Lax',
         path: '/',
-        // These force expiration
-        expires: new Date(0), // Past date
-        maxAge: 0 // Zero age
+        expires: new Date(0),
+        maxAge: 0
     };
     
-    console.log('🔧 Using cookie settings:', exactCookieSettings);
-    
-    // Method 1: Set empty value with expired date (MOST RELIABLE)
     res.cookie('token', '', exactCookieSettings);
-    
-    // Method 2: Also call clearCookie (belt and suspenders)
     res.clearCookie('token', exactCookieSettings);
     
-    // Do the same for session cookie
     res.cookie('connect.sid', '', exactCookieSettings);
     res.clearCookie('connect.sid', exactCookieSettings);
-    
-    // Destroy the session in store
+
     req.session.destroy((err) => {
         if (err) {
             console.error('❌ Session destroy error:', err);
@@ -178,7 +160,6 @@ app.post('/logout', (req, res) => {
             console.log('✅ Session destroyed in store');
         }
         
-        // Send response
         res.json({
             success: true,
             message: 'Logged out - cookies should be cleared',
@@ -193,7 +174,7 @@ app.get('/admin' , (req,res) => {
     if(req.session.admin == true){
         res.status(200).json('ok');
     } else {
-        res.status(401).json(`${req.session.admin}`);
+        res.status(401).json('not authorized.');
     }
 });
 
@@ -224,4 +205,4 @@ app.delete('/drawing/:id', async (req,res) => {
     res.json('deleted');
 });
 
-app.listen(process.env.PORT);
+app.listen(process.env.PORT || 4000);
