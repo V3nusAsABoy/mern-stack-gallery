@@ -18,7 +18,7 @@ export default function DrawingPage(){
                 <div className="drawingPageContainer">
                     <h1>{(drawing as art).title}</h1>
                     <h2>by {(drawing as art).artist}</h2>
-                    <img src={`${url}${drawing}`} alt={(drawing as art).title} />
+                    <img src={`${url}${(drawing as art).art}`} alt={(drawing as art).title} />
                 </div>
             }
         </div>

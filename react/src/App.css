@@ -106,9 +106,6 @@ h1{
     padding:3em;
     background-color:#ededed;
     width:60%;
-    /*box-shadow: -0.5em -0.5em 1em rgba(146, 146, 146, 0.75),  0.5em 0.5em 1em rgb(146, 146, 146, 0.75);*/
-    margin-right: auto;
-    margin-left: auto;
     top:0%;
     height:100%;
     min-height:100vh;
@@ -245,6 +242,23 @@ h1{
 
 .hidden{
     display:none;
+}
+
+.drawingPageContainer{
+    display:flex;
+    flex-direction: column;
+}
+
+.drawingPageContainer img{
+    align-self: center;
+}
+
+.drawingPageContainer h1{
+    font-size:5em;
+}
+
+.drawingPageContainer h2{
+    font-size:1.5em;
 }
 
 @media screen and (max-width: 1600px){
